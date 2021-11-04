@@ -1,0 +1,26 @@
+Omlette
+3
+Egg | 2 | pcs
+Milk | 100 | ml
+Tomato | 2 | pcs
+
+Beijing Duck
+4
+Duck | 1 | pcs
+Water | 2 | l
+Honey | 3 | tbs
+Soy sous | 60 | ml
+
+Baked 
+3
+Potato | 1 | kg
+Garlik | 3 | pcs
+Gauda cheese | 100 | g
+
+Fahitos
+5
+Beef | 500 | g
+Pepper | 1 | pcs
+Lavash | 2 | pcs
+Vinegar | 1 | tbs
+Tomato | 2 | pcs
