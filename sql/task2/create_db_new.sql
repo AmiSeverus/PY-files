@@ -5,7 +5,7 @@ name varchar(16) not null unique
 
 create table if not exists Singers(
 id serial primary key,
-name varchar(16) not null unique
+name varchar(32) not null unique
 );
 
 create table if not exists SingersGenders(
@@ -16,7 +16,7 @@ constraint pk_sg primary key (singer_id, gender_id)
 
 create table if not exists Albums(
 id serial primary key,
-name varchar(16) not null,
+name varchar(32) not null,
 year integer not null check(year > 0)
 );
 
@@ -29,7 +29,7 @@ constraint pk_sa primary key (singer_id, album_id)
 create table if not exists Songs(
 id serial primary key,
 album_id integer references Albums(id),
-name varchar(16) not null,
+name varchar(32) not null,
 length integer not null
 );
 
