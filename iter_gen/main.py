@@ -1,22 +1,37 @@
 class FlatIterator:
 
     def __init__(self, array):
-        self.result = []
-        self.array = array
-        self.start = - 1
-        self.end = len(array)
+        self.main_list = array
 
     def __iter__(self):
+        self.main_list_cursor = 0  # курсор основного списка
+        self.nested_list_cursor = -1  # курсор списка вложенного в основной список
         return self
 
     def __next__(self):
-        self.start += 1
-        if self.start == self.end:
+        self.nested_list_cursor += 1
+
+        if len(self.main_list) == self.nested_list_cursor:
+            self.main_list_cursor += 1
+            self.nested_list_cursor = 0
+
+        if self.main_list_cursor == len(self.main_list):
             raise StopIteration
-        for elem in self.array[self.start]:
-            print(elem)
-            self.result.append(elem)
-        return(self.result)
+        
+        print(self.main_list[self.main_list_cursor][self.nested_list_cursor])
+        return self.main_list[self.main_list_cursor][self.nested_list_cursor]
+
+        # # увеличиваем nested_list_cursor
+
+        # if ...:# если во вложенном списке элементы закончились,
+        #     ...
+        #     # то переходи на следующий список увеличив main_list_cursor
+        #     # и обнуляем main_list_cursor
+
+        # if ...:
+        #     raise StopIteration
+
+        # return self.main_list[self.main_list_cursor][self.nested_list_cursor]
 
 nested_list = [
 	['a', 'b', 'c'],
