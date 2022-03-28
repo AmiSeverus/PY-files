@@ -21,7 +21,7 @@ def check_document_existance(user_doc_number):
     return doc_founded
 
 
-#testes
+#tested
 def get_doc_owner_name(user_doc_number):
     # user_doc_number = input('Введите номер документа - ')
     # print()
@@ -98,12 +98,13 @@ def move_doc_to_shelf(user_doc_number, user_shelf_number):
     # print('Документ номер "{}" был перемещен на полку номер "{}"'.format(user_doc_number, user_shelf_number))
     return get_doc_shelf(user_doc_number)
 
-
+#tested
 def show_document_info(document):
     doc_type = document['type']
     doc_number = document['number']
     doc_owner_name = document['name']
-    print('{} "{}" "{}"'.format(doc_type, doc_number, doc_owner_name))
+    # print('{} "{}" "{}"'.format(doc_type, doc_number, doc_owner_name))
+    return('{} "{}" "{}"'.format(doc_type, doc_number, doc_owner_name))
 
 #not tested
 def show_all_docs_info():
@@ -111,7 +112,7 @@ def show_all_docs_info():
     for current_document in documents:
         show_document_info(current_document)
 
-
+#tested
 def add_new_doc():
     new_doc_number = input('Введите номер документа - ')
     new_doc_type = input('Введите тип документа - ')
