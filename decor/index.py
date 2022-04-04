@@ -1,4 +1,4 @@
-from decor import log_decorator
+from decor import log_decorator, parametrized_decor
 
 # Задача 1
 
@@ -18,7 +18,8 @@ with open('recipes.txt') as file:
 
 # Задача 2
 
-@log_decorator
+@parametrized_decor(parameter='./')
+# @log_decorator
 def get_shop_list_by_dishes(dishes, person_count):
     if person_count > 0:
         shop_list_by_dishes = {}
