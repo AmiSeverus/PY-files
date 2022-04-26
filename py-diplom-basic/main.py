@@ -10,7 +10,7 @@ if __name__ == "__main__":
         def __init__(self):
             self.owners_id = set()
             self.vk_url = 'https://api.vk.com/method/'
-            self.params = '?access_token=958eb5d439726565e9333aa30e50e0f937ee432e927f0dbd541c541887d919a7c56f95c04217915c32008&v=5.131&album_id=profile&extended=1'
+            self.params = '?access_token=e9d323112cddc1440cd28b722a5215b7fdbfa263e8c6a3120e2ca78207c249b93a9424b752e9aeaca10a9&v=5.131&album_id=profile&extended=1'
             self.photo_sizes_sort_desc = ['w', 'z', 'y', 'x', 'r', 'q', 'p', 'm', 'o', 's']
             self.max_photos = []
 
@@ -52,7 +52,7 @@ if __name__ == "__main__":
             return res
 
         def get_max_photo_url_from_VK(self, url):
-            time.sleep(1)
+            print(url)
             res = requests.get(url).json()
             if 'error' in res:
                 return {'status': 'error', 'message': 'Слишком много запросов'}
