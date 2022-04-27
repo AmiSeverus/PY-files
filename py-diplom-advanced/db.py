@@ -1,10 +1,14 @@
-import sqlalchemy
-
+from curses import echo
 from sqlalchemy import create_engine
+from sqlalchemy.orm.session import sessionmaker
+from models import base
 
-engine = create_engine("postgresql+psycopg2://postgres:postgres@localhost/db_diploma_py_advanced")
+class DB():
 
-engine.connect()
+    def __init__(self):
+        self.engine = create_engine("postgresql+psycopg2://postgres:postgres@localhost/db_diploma_py_advanced", echo=True)
+        base.base.metadata.create_all(self.engine)
+        self.conn = sessionmaker(bind=self.engine)()
 
-class SearchResult():
-    pass
+    def getConn(self):
+        return self.conn
