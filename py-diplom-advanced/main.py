@@ -1,4 +1,3 @@
-from email import message
 import requests
 import vk_api
 import json
@@ -9,52 +8,12 @@ import vk
 import db
 import consts
 from pprint import pprint
-
-# token = input('Token: ')
+from model import models
 
 # token = 'cce07f199ea32d10e6cd991f5e6291bcae8f4f1e82e95abf7442d14e3ddc8e08c7f2fbc34c21f37458973'
 
 # vk_token = 'e9d323112cddc1440cd28b722a5215b7fdbfa263e8c6a3120e2ca78207c249b93a9424b752e9aeaca10a9'
-
-# vk = vk_api.VkApi(token=token)
-# longpoll = VkLongPoll(vk)
-# start_search_flag = False
-# search_attr = {'возраст':'', 'пол':'', 'город':'', 'семейное положение':'',}
-# message = ''
-
-
-# def start_search(flag):
-#     start_search_flag = flag
-
-# def clear_search_attr():
-#     for attr in search_attr:
-#         attr = ''
-
-# def set_search_attr(attr_name, value):
-#     if attr_name in search_attr:
-#         search_attr[attr_name] = value
-
-# def set_message(text):
-#     message = text
-
-def isint(s):
-    try:
-        int(s)
-        return True
-    except ValueError:
-        return False
-
-# for event in longpoll.listen():
-#     if event.type == VkEventType.MESSAGE_NEW:
-#         if event.to_me:
-#             if event.text == "привет":
-#                 # write_msg(event.user_id, f"Хай, {event.user_id}")
-#                 write_msg(event.user_id, "https://vk.com/id33718573?z=photo33718573_413817792%2Falbum33718573_0%2Frev")
-#             elif event.text == "пока":
-#                 write_msg(event.user_id, "Пока((")
-#             else:
-#                 write_msg(event.user_id, "Не поняла вашего ответа...")
-
+# standalone
 
 class ChatBot():
 
@@ -72,6 +31,10 @@ class ChatBot():
         self.search_attr = []
 
 
+    def get_black_list(self):
+        return self.conn.query(models.matches_shown).filter_by(user_id=self.user_id).all()
+
+
     def write_msg(self, user_id, message):
         self.vk_api.method('messages.send', {'user_id': user_id, 'message': message, 'random_id': randrange(10 ** 7),})
 
@@ -83,12 +46,14 @@ class ChatBot():
                 self.missing_attr = key
                 return
 
+
     def isint(self,s):
         try:
             int(s)
             return True
         except ValueError:
             return False    
+
 
     def check_attr(self, value):
         check_pass = True
@@ -256,7 +221,9 @@ class ChatBot():
                                         self.write_msg(event.user_id, 'Выберите цифру из предложенных ниже:')
                                         self.write_msg(event.user_id, self.return_sub_str())                              
                 elif self.current_step == 3:
+                    pprint(self.vk.search_pairs(self.search_attr, self.get_black_list()))
                     self.write_msg(event.user_id, 'В разработке')
+
 
 bot = ChatBot()
 
