@@ -18,34 +18,36 @@ class VK:
     def __init__(self, token):
         self.vk_url = 'https://api.vk.com/method/'
         self.params = '?access_token=' + token + '&v=5.131&album_id=profile&extended=1'
-        self.user = []
         self.error_message = ''
         self.results = []
-        self.search_attr = {'sex':False, 'hometowm':False, 'status':False, 'age':False}
+        self.search_attr = {'sex':False, 'hometown':False, 'status':False, 'age':False}
+        self.user_id = ''
+
 
     def get_user(self, q):
-        url = self.vk_url + 'users.get' + self.params + '&fields=bdate,sex,home_town,relation&user_ids=' + str(q)
-        print(url)
-        res = requests.get(url).json()['response']
-        print(res)
+        res = requests.get(self.vk_url + 'users.get' + self.params + '&fields=bdate,sex,home_town,relation&user_ids=' + str(q)).json()['response']
         self.error_message = ''
         self.results = []
         if len(res) < 1:
             self.error_message = 'Пользователь не найден'
         else:
-            self.user = res[0]
-            self.fill_in_search_attr()
+            print(res[0])
+            self.fill_in_search_attr(res[0])
 
-    def fill_in_search_attr(self):
-        for key, value in self.user.items():
+
+    def fill_in_search_attr(self, user):
+        for key, value in user.items():
             if key == 'bdate':
                 self.process_date(value)
-            if key == 'sex':
-                self.search_attr['sex'] = value
+            # if key == 'sex':
+                # self.search_attr['sex'] = value
             if key == 'home_towm' and value:
                 self.search_attr['hometown'] = value
             if key == 'relation' and value:
                 self.search_attr['status'] = value
+            if key == 'id':
+                self.user_id = value
+
 
     def process_date(self, date):
         date_arr = date.split()
@@ -54,16 +56,23 @@ class VK:
         date_b = datetime.date(year=date_arr[2], month=date_arr[1], day=date_arr[0])
         date_today = datetime.date.today()
         age = relativedelta(date_today, date_b)
-        if age < 0:
-            return
-        self.search_attr['age'] = age
+        if age > 0:
+            self.search_attr['age'] = age
 
-    def search_users(self):
+
+    def get_search_attr(self,q):
+        self.error_message = ''
+        self.search_attr = {'sex':False, 'hometown':False, 'status':False, 'age':False}
+        self.user_id = ''
+        self.get_user(q)
+        return {'error_message':self.error_message, 'results':{'search_attr': self.search_attr, 'user_id': self.user_id}}
+
+    # конец первого шага
+
+    def search_users(self, search_attr):
+        self.search_attr = search_attr
         pass
 
-    def execute(self,q):
-        self.get_user(q)
-        return {'error_message':self.error_message, 'results':self.search_attr}
 
     def get_user_photo_from_VK(self, user_id):
         res = requests.get(self.vk_url + 'photos.get' + self.params + '&owner_id=' + str(user_id)).json()
@@ -101,16 +110,6 @@ class VK:
             #             break
         # return {'status': 'success'}
 
-    def get_search_attr(self,q):
-        self.get_user(self,q)
-        if not self.error_message:
-            self.fill_in_search_attr()
-        return {'error_message':self.error_message, 'results':self.results}
+# vk_chat = VK(vk_token)
 
-    def get_search_data(self):
-        pass
-
-
-vk_chat = VK(vk_token)
-
-pprint(vk_chat.execute('natalia_tataur'))
+# pprint(vk_chat.get_user('natalia_tataur'))
