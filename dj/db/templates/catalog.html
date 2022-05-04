@@ -9,10 +9,21 @@
         </div>
 
         <div class="sort-block">
+            Сортировать по: &nbsp;&nbsp;&nbsp;
+            <a href="/catalog?sort=name" class="sort-item{% if sort == 'name' %} underline{% endif %}">названию</a>
+            <a href="/catalog?sort=price_asc" class="sort-item{% if sort == 'price_asc' %} underline{% endif %}" >начиная с дешёвых</a>
+            <a href="/catalog?sort=price_desc" class="sort-item{% if sort == 'price_desc' %}underline{% endif %}" >начиная с дорогих</a>
             {# Здесь должен быть раздел с сортировкой #}
         </div>
 
         <div class="content">
+            {% for phone in phones %}
+            <div class="item">
+                <h3><a href="/catalog/{{ phone.slug }}"> {{ phone.name }} </a></h3>
+                <p>Стоимость: <span class="price">{{ phone.price }} </span> <i class="material-icons">currency_ruble</i></p>
+                <img src="{{ phone.image }}">
+            </div>
+            {% endfor %}
             {# Здесь должен отображаться каталог с телефонами #}
         </div>
     </div>

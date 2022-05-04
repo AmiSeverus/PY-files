@@ -8,7 +8,17 @@
             <h1>Телефон</h1>
         </div>
         <div class="content">
-
+            {% if phone %}
+                <div class="phone_img">
+                    <h3>{{ phone.name }}</h3>
+                    <p>Стоимость: <span class="price">{{ phone.price }} </span> <i class="material-icons">currency_ruble</i></p>
+                    <img src="{{ phone.image }}">
+                </div>
+            {% else %}
+                <div class="phone_img">
+                    <h3>Упс, кажется такого товара не существует</h3>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
