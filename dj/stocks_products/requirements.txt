@@ -1,0 +1,4 @@
+django
+django_filters
+djangorestframework
+psycopg2-binary
