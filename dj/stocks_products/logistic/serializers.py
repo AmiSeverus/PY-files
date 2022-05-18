@@ -50,15 +50,23 @@ class StockSerializer(serializers.ModelSerializer):
 
         if positions:
 
-            StockProduct.objects.filter(stock=stock).delete()
+            records = StockProduct.objects.filter(stock=stock)
 
             for position in positions:
-                StockProduct.objects.create(
-                stock = stock,
-                product = position['product'],
-                quantity = position['quantity'],
-                price = position['price']
-            )
+                record = records.filter(product=position['product'])
+
+                if record:
+                    record.update(
+                        product = position['product'],
+                        quantity = position['quantity'],                        
+                    )
+                else:
+                    StockProduct.objects.create(
+                        stock = stock,
+                        product = position['product'],
+                        quantity = position['quantity'],
+                        price = position['price']
+                    )
 
         # здесь вам надо обновить связанные таблицы
         # в нашем случае: таблицу StockProduct
