@@ -59,32 +59,34 @@ def test_update_course(client, course_factory):
 
     assert response.status_code == 200
 
-    assert Course.objects.get(pk=course.id).name == 'test'
+    assert response.data['name'] == 'test'
 
 @pytest.mark.django_db
 def test_course_filter_by_id(client, course_factory):
     course = course_factory(_quantity=10)[0]
 
-    response = client.get(f'/api/v1/courses/?id = {course.id}/')
+    response = client.get(f'/api/v1/courses/?id={course.id}/')
 
     assert response.status_code == 200
 
-    assert Course.objects.filter(id=course.id).count() == 1
+    assert Course.objects.get(pk=course.id).count() == 1
 
 @pytest.mark.django_db
 def test_course_filter_by_name(client, course_factory):
     courses = course_factory(_quantity=10)
     test_course = courses[0]
-    count = 0
-    for course in courses:
-        if course.name == test_course.name:
-            count += 1
+    # count = 0
+    # for course in courses:
+    #     if course.name == test_course.name:
+    #         count += 1
+    count = Course.objects.filter(name=test_course.name).count()
 
-    response = client.get(f'/api/v1/courses/?id = {test_course.id}/')
+    response = client.get(f'/api/v1/courses/?name={test_course.name}/')
 
     assert response.status_code == 200
-
-    assert Course.objects.filter(name=test_course.name).count() == count
+    data = response.json()
+    # assert Course.objects.filter(name=test_course.name).count() == count
+    assert count == len(data)
 
 @pytest.mark.django_db
 def test_delete_course(client, course_factory):
