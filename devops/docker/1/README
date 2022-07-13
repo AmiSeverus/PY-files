@@ -1,0 +1,2 @@
+# В команде ниже заменить путь до html и запустить в терминале
+docker run -d -p 8000:80 --name nginx1 -v FULL_PATH_TO_HTML_ON_YOUR_MASHINE:/usr/share/nginx/html nginx
