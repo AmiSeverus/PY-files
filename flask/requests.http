@@ -1,0 +1,56 @@
+# примеры API-запросов
+
+@baseUrl = http://localhost:5050
+
+###
+
+# создание пользователя
+POST {{baseUrl}}/users/
+Content-Type: application/json
+
+{
+  "name": "Kolya",
+}
+
+###
+
+# создание объявления
+POST {{baseUrl}}/adv/
+Content-Type: application/json
+
+{
+  "title": "Tomat",
+  "description": "Best of the best",
+  "user_id":1
+}
+
+###
+
+# получение всех объявлений
+GET {{baseUrl}}/adv/
+Content-Type: application/json
+
+###
+
+# получение объявления
+
+GET {{baseUrl}}/adv/1/
+Content-Type: application/json
+
+###
+
+# обновление объявления
+PATCH {{baseUrl}}/adv/1/
+Content-Type: application/json
+
+{
+  "description": "Самые сочные и ароматные помидорки"
+}
+
+###
+
+# удаление объявления
+DELETE {{baseUrl}}/adv/1/
+Content-Type: application/json
+
+###
